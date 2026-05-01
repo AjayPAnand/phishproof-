@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PhishProof — Level Up Your Digital Defense</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0D0D0D;
+    --paper: #F5F0E8;
+    --flame: #FF4D1C;
+    --electric: #00E5FF;
+    --muted: #6B6560;
+    --card: #FFFFFF;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 2.5rem;
+    background: rgba(245,240,232,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(13,13,13,0.08);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.3rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .nav-logo .dot { color: var(--flame); }
+  nav a {
+    font-size: 0.85rem; font-weight: 500;
+    color: var(--ink); text-decoration: none;
+    letter-spacing: 0.04em;
+    border: 1.5px solid var(--ink);
+    padding: 0.5rem 1.2rem; border-radius: 100px;
+    transition: all 0.2s;
+  }
+  nav a:hover { background: var(--ink); color: var(--paper); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 60% at 80% 50%, rgba(0,229,255,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 5rem 3rem 5rem 5rem;
+    position: relative; z-index: 2;
+  }
+
+  .eyebrow {
+    font-size: 0.75rem; font-weight: 500;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--muted);
+    display: flex; align-items: center; gap: 0.6rem;
+    margin-bottom: 1.5rem;
+  }
+  .eyebrow::before {
+    content: ''; display: block;
+    width: 24px; height: 1.5px; background: var(--flame);
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.2rem;
+  }
+
+  h1 .accent {
+    color: var(--flame);
+    position: relative;
+    display: inline-block;
+  }
+
+  h1 .accent::after {
+    content: '';
+    position: absolute; left: 0; bottom: 4px; right: 0;
+    height: 4px; background: var(--electric);
+    border-radius: 2px;
+    transform: scaleX(0); transform-origin: left;
+    animation: underlineIn 0.8s ease 0.6s forwards;
+  }
+
+  @keyframes underlineIn { to { transform: scaleX(1); } }
+
+  .subheadline {
+    font-size: 1.1rem; font-weight: 300; color: var(--muted);
+    line-height: 1.65;
+    max-width: 480px;
+    margin: 1.4rem 0 2.5rem;
+  }
+
+  .hero-cta {
+    display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;
+  }
+
+  .btn-primary {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 0.95rem;
+    background: var(--flame); color: white;
+    border: none; padding: 0.9rem 2rem;
+    border-radius: 8px; cursor: pointer;
+    letter-spacing: 0.02em;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+  .btn-primary:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--ink); }
+
+  .btn-ghost {
+    font-size: 0.9rem; font-weight: 500;
+    color: var(--ink); background: none; border: none;
+    cursor: pointer; text-decoration: underline;
+    text-underline-offset: 3px; letter-spacing: 0.02em;
+  }
+
+  .social-proof-mini {
+    margin-top: 3rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .avatars { display: flex; }
+  .avatars span {
+    width: 32px; height: 32px; border-radius: 50%;
+    border: 2px solid var(--paper);
+    font-size: 1rem; line-height: 28px;
+    text-align: center;
+    margin-left: -8px; first-child { margin-left: 0; }
+    background: #e0dbd2;
+  }
+  .avatars span:first-child { margin-left: 0; }
+  .proof-text { font-size: 0.8rem; color: var(--muted); line-height: 1.4; }
+  .proof-text strong { color: var(--ink); display: block; font-size: 0.9rem; }
+
+  /* ── HERO RIGHT (Mock App) ── */
+  .hero-right {
+    display: flex; align-items: center; justify-content: center;
+    padding: 3rem 3rem 3rem 0;
+    position: relative;
+  }
+
+  .mock-device {
+    width: 280px;
+    background: var(--ink);
+    border-radius: 28px;
+    padding: 2rem 1.5rem;
+    color: white;
+    box-shadow: 20px 20px 0 rgba(0,229,255,0.3), 0 40px 80px rgba(13,13,13,0.3);
+    position: relative;
+    animation: floatDevice 4s ease-in-out infinite;
+  }
+
+  @keyframes floatDevice {
+    0%, 100% { transform: translateY(0px) rotate(-2deg); }
+    50% { transform: translateY(-12px) rotate(-2deg); }
+  }
+
+  .device-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 1.2rem;
+  }
+  .device-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.85rem; }
+  .device-xp { font-size: 0.7rem; color: var(--electric); font-weight: 500; }
+
+  .challenge-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px; padding: 1rem;
+    margin-bottom: 0.8rem;
+  }
+  .challenge-label { font-size: 0.6rem; letter-spacing: 0.1em; color: var(--electric); text-transform: uppercase; margin-bottom: 0.4rem; }
+  .challenge-title { font-family: 'Syne', sans-serif; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .challenge-desc { font-size: 0.65rem; color: rgba(255,255,255,0.6); line-height: 1.4; }
+
+  .progress-row {
+    display: flex; justify-content: space-between; align-items: center;
+    margin: 0.8rem 0 0.4rem;
+  }
+  .progress-label { font-size: 0.6rem; color: rgba(255,255,255,0.5); }
+  .progress-bar {
+    width: 100%; height: 4px;
+    background: rgba(255,255,255,0.1); border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; width: 65%;
+    background: linear-gradient(90deg, var(--electric), #00B8CC);
+    border-radius: 2px;
+    animation: progressPulse 2s ease-in-out infinite;
+  }
+  @keyframes progressPulse { 0%,100%{ opacity:1 } 50%{ opacity:0.7 } }
+
+  .badges-row {
+    display: flex; gap: 0.4rem; margin-top: 0.8rem; flex-wrap: wrap;
+  }
+  .badge {
+    font-size: 0.6rem; padding: 0.2rem 0.55rem;
+    border-radius: 100px; font-weight: 500;
+  }
+  .badge-blue { background: rgba(0,229,255,0.15); color: var(--electric); border: 1px solid rgba(0,229,255,0.3); }
+  .badge-orange { background: rgba(255,77,28,0.15); color: #FF7A50; border: 1px solid rgba(255,77,28,0.3); }
+  .badge-white { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.12); }
+
+  .leaderboard-mini {
+    margin-top: 0.8rem;
+    background: rgba(255,255,255,0.04);
+    border-radius: 8px; padding: 0.7rem;
+  }
+  .lb-title { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); margin-bottom: 0.5rem; }
+  .lb-row { display: flex; justify-content: space-between; font-size: 0.65rem; margin-bottom: 0.3rem; }
+  .lb-rank { color: var(--electric); font-family: 'Syne', sans-serif; font-weight: 700; }
+  .lb-xp { color: rgba(255,255,255,0.4); }
+
+  .floating-badge {
+    position: absolute; top: -18px; right: -18px;
+    background: var(--flame); color: white;
+    border-radius: 12px; padding: 0.6rem 1rem;
+    font-size: 0.7rem; font-weight: 700;
+    box-shadow: 4px 4px 0 var(--ink);
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s both;
+    white-space: nowrap;
+  }
+  @keyframes popIn { from { transform: scale(0) rotate(-10deg); opacity:0; } to { transform: scale(1) rotate(0); opacity:1; } }
+
+  /* ── STATS STRIP ── */
+  .stats-strip {
+    background: var(--ink);
+    color: white;
+    display: flex; justify-content: center; align-items: center;
+    gap: 0; padding: 0;
+    overflow: hidden;
+  }
+  .stat-item {
+    padding: 2rem 3.5rem;
+    text-align: center;
+    border-right: 1px solid rgba(255,255,255,0.08);
+    flex: 1;
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem; font-weight: 800;
+    color: var(--electric);
+    display: block;
+  }
+  .stat-label { font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 0.2rem; }
+
+  /* ── BENEFITS ── */
+  .benefits {
+    padding: 7rem 5rem;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .section-eyebrow {
+    font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--flame); margin-bottom: 0.8rem; font-weight: 500;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 3vw, 3rem);
+    font-weight: 800; line-height: 1.1;
+    max-width: 600px; margin-bottom: 1rem;
+  }
+  .section-sub {
+    font-size: 1rem; color: var(--muted); max-width: 500px;
+    line-height: 1.65; margin-bottom: 3.5rem;
+  }
+
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    background: var(--ink);
+    border: 1.5px solid var(--ink);
+    border-radius: 16px; overflow: hidden;
+  }
+
+  .benefit-card {
+    background: var(--paper);
+    padding: 2.2rem 2rem;
+    transition: background 0.2s;
+    cursor: default;
+  }
+  .benefit-card:hover { background: #EDE8E0; }
+
+  .benefit-icon {
+    width: 48px; height: 48px;
+    background: var(--ink); border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; margin-bottom: 1.2rem;
+  }
+
+  .benefit-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem; font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  .benefit-desc { font-size: 0.875rem; color: var(--muted); line-height: 1.6; }
+
+  /* ── CTA SECTION ── */
+  .cta-section {
+    background: var(--ink);
+    margin: 0 5rem 7rem;
+    border-radius: 24px;
+    padding: 5rem 4rem;
+    display: grid; grid-template-columns: 1fr auto;
+    align-items: center; gap: 3rem;
+    position: relative; overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute; right: -60px; top: -60px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,229,255,0.2) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-label { font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--electric); margin-bottom: 0.8rem; font-weight: 500; }
+  .cta-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    font-weight: 800; color: white; line-height: 1.1;
+    margin-bottom: 0.8rem;
+  }
+  .cta-sub { color: rgba(255,255,255,0.5); font-size: 0.95rem; line-height: 1.6; max-width: 460px; }
+  .cta-right { display: flex; flex-direction: column; gap: 1rem; align-items: flex-end; white-space: nowrap; }
+  .cta-input-row { display: flex; gap: 0; }
+  .cta-input {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem; padding: 0.85rem 1.2rem;
+    border: 1.5px solid rgba(255,255,255,0.2);
+    border-right: none;
+    background: rgba(255,255,255,0.06);
+    color: white; border-radius: 8px 0 0 8px;
+    outline: none; width: 240px;
+  }
+  .cta-input::placeholder { color: rgba(255,255,255,0.3); }
+  .cta-input:focus { border-color: var(--electric); }
+  .cta-submit {
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem;
+    background: var(--flame); color: white; border: none;
+    padding: 0.85rem 1.4rem; border-radius: 0 8px 8px 0;
+    cursor: pointer; letter-spacing: 0.02em;
+    transition: background 0.2s;
+  }
+  .cta-submit:hover { background: #e04015; }
+  .cta-note { font-size: 0.72rem; color: rgba(255,255,255,0.3); }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials {
+    padding: 0 5rem 7rem;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .testi-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  .testi-card {
+    background: white;
+    border: 1.5px solid rgba(13,13,13,0.08);
+    border-radius: 16px; padding: 2rem;
+    position: relative;
+  }
+  .testi-quote {
+    font-size: 2.5rem; color: var(--flame);
+    font-family: 'Syne', sans-serif; line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .testi-text { font-size: 0.9rem; color: var(--ink); line-height: 1.65; margin-bottom: 1.5rem; font-style: italic; }
+  .testi-author { display: flex; align-items: center; gap: 0.8rem; }
+  .testi-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--ink); color: var(--paper);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+  }
+  .testi-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem; }
+  .testi-role { font-size: 0.75rem; color: var(--muted); }
+  .testi-tag {
+    position: absolute; top: 1.2rem; right: 1.2rem;
+    font-size: 0.65rem; padding: 0.25rem 0.6rem;
+    border-radius: 100px; font-weight: 500;
+    background: rgba(0,229,255,0.12); color: #00A8BC;
+    border: 1px solid rgba(0,229,255,0.25);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1.5px solid rgba(13,13,13,0.1);
+    padding: 2.5rem 5rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; }
+  .footer-tagline { font-size: 0.8rem; color: var(--muted); }
+  .footer-right { font-size: 0.75rem; color: var(--muted); }
+
+  /* ── ANIMATIONS ── */
+  .fade-up {
+    opacity: 0; transform: translateY(24px);
+    animation: fadeUp 0.7s ease forwards;
+  }
+  @keyframes fadeUp { to { opacity:1; transform:translateY(0); } }
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.25s; }
+  .delay-3 { animation-delay: 0.4s; }
+  .delay-4 { animation-delay: 0.55s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .hero-left { padding: 4rem 2rem; }
+    .benefits { padding: 4rem 2rem; }
+    .benefits-grid { grid-template-columns: 1fr; }
+    .cta-section { margin: 0 2rem 4rem; grid-template-columns: 1fr; }
+    .cta-right { align-items: flex-start; }
+    .testimonials { padding: 0 2rem 4rem; }
+    .testi-grid { grid-template-columns: 1fr; }
+    .stats-strip { flex-wrap: wrap; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">PhishProof<span class="dot">.</span></div>
+  <a href="#waitlist">Get Early Access</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="eyebrow fade-up">Cybersecurity Training Reimagined</div>
+    <h1 class="fade-up delay-1">
+      Your next<br>
+      <span class="accent">scam attempt</span><br>
+      won't fool you.
+    </h1>
+    <p class="subheadline fade-up delay-2">
+      PhishProof turns real-world cyber threats into daily micro-challenges. 
+      Earn streaks, unlock skills, outsmart hackers — in 5 minutes a day.
+    </p>
+    <div class="hero-cta fade-up delay-3">
+      <button class="btn-primary" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">
+        Start for Free →
+      </button>
+      <button class="btn-ghost">Watch 90-sec demo</button>
+    </div>
+    <div class="social-proof-mini fade-up delay-4">
+      <div class="avatars">
+        <span>🧑</span><span>👩</span><span>👨</span><span>🧑</span>
+      </div>
+      <div class="proof-text">
+        <strong>3,100+ students enrolled</strong>
+        Avg. 94% completion rate across cohorts
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right fade-up delay-2">
+    <div style="position:relative;">
+      <div class="mock-device">
+        <div class="floating-badge">+75 XP Earned! 🎯</div>
+        <div class="device-header">
+          <div class="device-logo">PhishProof</div>
+          <div class="device-xp">Level 8 · 1,240 XP</div>
+        </div>
+        <div class="challenge-card">
+          <div class="challenge-label">🎯 Daily Challenge</div>
+          <div class="challenge-title">Spot the Scam Email</div>
+          <div class="challenge-desc">An email from "support@paypa1.com" asks you to verify your account urgently. What's your move?</div>
+          <div class="progress-row">
+            <span class="progress-label">Level 3 of 5</span>
+            <span class="progress-label">65%</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill"></div></div>
+          <div class="badges-row">
+            <span class="badge badge-blue">Streak: 5 days</span>
+            <span class="badge badge-orange">+75 XP</span>
+            <span class="badge badge-white">Badge unlocked</span>
+          </div>
+        </div>
+        <div class="leaderboard-mini">
+          <div class="lb-title">🏆 This Week's Leaders</div>
+          <div class="lb-row"><span><span class="lb-rank">#1</span> Maya T.</span><span class="lb-xp">620 XP</span></div>
+          <div class="lb-row"><span><span class="lb-rank">#2</span> You</span><span class="lb-xp">580 XP</span></div>
+          <div class="lb-row"><span><span class="lb-rank">#3</span> Liam K.</span><span class="lb-xp">510 XP</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stat-item">
+    <span class="stat-number">3.1k+</span>
+    <div class="stat-label">Active Learners</div>
+  </div>
+  <div class="stat-item">
+    <span class="stat-number">94%</span>
+    <div class="stat-label">Completion Rate</div>
+  </div>
+  <div class="stat-item">
+    <span class="stat-number">5 min</span>
+    <div class="stat-label">Avg. Daily Session</div>
+  </div>
+  <div class="stat-item">
+    <span class="stat-number">4.8★</span>
+    <div class="stat-label">Student Rating</div>
+  </div>
+</div>
+
+<!-- BENEFITS -->
+<section class="benefits">
+  <div class="section-eyebrow">Why it works</div>
+  <h2 class="section-title">Security skills that actually stick around.</h2>
+  <p class="section-sub">Most training puts you to sleep. PhishProof puts you in the scenario — the only way to build real instincts fast.</p>
+
+  <div class="benefits-grid">
+    <div class="benefit-card">
+      <div class="benefit-icon">🎮</div>
+      <div class="benefit-title">Scenario-Based Gameplay</div>
+      <div class="benefit-desc">Face real threats like phishing emails, fake login pages, and social engineering attacks — in a safe, gamified environment where mistakes are lessons, not disasters.</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">⚡</div>
+      <div class="benefit-title">Micro-Learning Format</div>
+      <div class="benefit-desc">5-minute daily challenges fit around lectures, commutes, and coffee breaks. Consistency beats marathon sessions every time — and the streaks prove it.</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">🏆</div>
+      <div class="benefit-title">Compete & Earn</div>
+      <div class="benefit-desc">Climb leaderboards, collect skill badges, and earn certificates recognised by employers. Turn your cyber knowledge into credentials that open doors.</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">🎯</div>
+      <div class="benefit-title">Real Australian Threats</div>
+      <div class="benefit-desc">Scenarios include myGov phishing, ATO scams, and Centrelink impersonation — threats your peers actually encounter, not generic textbook examples.</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">📱</div>
+      <div class="benefit-title">Mobile-First Design</div>
+      <div class="benefit-desc">Built for how Gen-Z learns: on a phone, on the go, with a UI that feels more like an app you'd actually choose to open than training you're forced to complete.</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">🔒</div>
+      <div class="benefit-title">Habit-Forming Loops</div>
+      <div class="benefit-desc">Daily streaks, XP rewards, and personalised progress tracking create the same dopamine hooks as your favourite apps — except this one makes you genuinely safer.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="waitlist" class="cta-section">
+  <div>
+    <div class="cta-label">Early Access — Free</div>
+    <h2 class="cta-title">Join before your<br>classmates do.</h2>
+    <p class="cta-sub">Be first in line. Early members earn an exclusive "Founding Defender" badge and lifetime access to our core challenge library.</p>
+  </div>
+  <div class="cta-right">
+    <div class="cta-input-row">
+      <input class="cta-input" type="email" placeholder="your.uni.email@edu.au">
+      <button class="cta-submit">Claim Spot →</button>
+    </div>
+    <span class="cta-note">🔒 No spam. Unsubscribe any time. Australian Privacy Act compliant.</span>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="section-eyebrow">Social proof</div>
+  <h2 class="section-title">What students are saying.</h2>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-tag">Deakin IT Student</div>
+      <div class="testi-quote">"</div>
+      <p class="testi-text">I almost clicked a fake myGov link last semester. After two weeks on PhishProof I spotted it instantly — the URL was off by one character. That's the kind of reflex you can't get from a lecture slide.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">🧑</div>
+        <div>
+          <div class="testi-name">Jordan M.</div>
+          <div class="testi-role">2nd Year, Bachelor of IT</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-tag">Early Career Professional</div>
+      <div class="testi-quote">"</div>
+      <p class="testi-text">My workplace did a phishing simulation test and I was the only one in my team who didn't click the fake link. PhishProof deserves the credit — I'd been doing the daily challenges for 3 weeks straight.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">👩</div>
+        <div>
+          <div class="testi-name">Priya S.</div>
+          <div class="testi-role">Graduate Marketing Analyst</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-tag">International Student</div>
+      <div class="testi-quote">"</div>
+      <p class="testi-text">As an international student I didn't know which Australian scams to watch out for. The myGov and ATO challenge modules were exactly what I needed — explained in plain English, not cybersecurity jargon.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">👨</div>
+        <div>
+          <div class="testi-name">Wei C.</div>
+          <div class="testi-role">Masters Student, Melbourne</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">PhishProof<span style="color:var(--flame)">.</span></div>
+    <div class="footer-tagline">Think fast. Click smart. Stay safe.</div>
+  </div>
+  <div class="footer-right">© 2026 PhishProof · Built at Deakin · Australian Privacy Act Compliant</div>
+</footer>
+
+</body>
+</html>
